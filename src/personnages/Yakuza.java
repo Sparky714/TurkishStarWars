@@ -31,6 +31,7 @@ public class Yakuza extends Humain{
 		return clan;
 	}
 	//surcharge de la méthode dire Bonjour
+	@Override
 	public void direBonjour() { 
 		super.direBonjour();
 		super.parler("Mon clan est "+this.clan);

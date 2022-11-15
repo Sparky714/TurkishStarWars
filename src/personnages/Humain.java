@@ -4,6 +4,8 @@ public class Humain {
 	private String nom;
 	private String boisson;
 	private int moulaga;
+	private Humain [] memoire = new Humain [30];
+	private int nbHumains;
 
 	public Humain(String nom, String boisson, int moulaga) {
 		this.nom = nom;
@@ -11,7 +13,7 @@ public class Humain {
 		this.moulaga = moulaga;
 	}
 
-	public void parler(String texte) {
+	protected void parler(String texte) {
 		System.out.println("(" + nom + ") - " + texte);
 	}
 
@@ -35,7 +37,7 @@ public class Humain {
 		return moulaga;
 	}
 
-	public int gagnerArgent(int montant) {
+	protected int gagnerArgent(int montant) {
 		return this.moulaga += montant;
 	}
 
@@ -55,6 +57,44 @@ public class Humain {
 		}else {
 			parler("J'ai " + moulaga + " sous en poche. Je vais pouvoir m'offrir un " + bien + " à " + pognon + " sous.");
 			moulaga -= pognon;
+		}
+	}
+
+	public void faireConnaissance(Humain humain){
+		this.direBonjour();
+		humain.repondre(humain);
+		this.memoriser(humain);
+		humain.memoriser(this);
+	}
+	
+	private void repondre(Humain humain) {
+		humain.direBonjour();
+	}
+	
+	private void memoriser(Humain humain) {
+		if(nbHumains < 30){
+			this.memoire[this.nbHumains] = humain;
+			this.nbHumains += 1;
+		}
+		else{
+			parler("Je t'ai déjà vu ?");
+		}
+	}
+	
+	public void listerConnaissance() {
+		String blabla = "Je connais beaucoup de gens dont : ";
+		if(this.memoire[0] == null) {
+			this.parler("Olala je ne connais personne, quelle grosse merde...");
+		}else {
+			for(int i = 0; i < nbHumains; i++) {
+				if(this.memoire[i] == null) {
+					this.parler(blabla);
+					return;
+				}else {
+					blabla += this.memoire[i].getNom() + ", ";
+				}
+			}
+			this.parler(blabla);
 		}
 	}
 }
